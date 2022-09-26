@@ -1,3 +1,26 @@
 <resources>
-    <string name="app_name">AndroidLab_22-23</string>
+    <string name="app_name">AndroidLab_22_23</string>
+    <string name="page_title">Telegram</string>
+    <string name="bases">Основы разработки систем</string>
+    <string name="kirill_notes_rar">Kirill: Notes.rar</string>
+    <string name="fr">пт</string>
+    <string name="_11">11</string>
+    <string name="energy">Энергия солнца</string>
+    <string name="anonym">Anonym: Мы закрываемся</string>
+    <string name="mon">пн</string>
+    <string name="_35">35</string>
+    <string name="world">Мир сов</string>
+    <string name="owl1">Owl1: Сны реальны</string>
+    <string name="wen">чт</string>
+    <string name="_1">1</string>
+    <string name="retrowave">RetroWave</string>
+    <string name="cloudjunior">CloudJunior: Закат сегодня красивый</string>
+    <string name="sun">вт</string>
+    <string name="_7">7</string>
+    <string name="pyrofans">PyroFans</string>
+    <string name="lj_https_music_yandex_ru_album_23258611">LJ: https://music.yandex.ru/album/23258611</string>
+    <string name="_25">25</string>
+    <string name="all">Все</string>
+    <string name="personal">Личные</string>
+    <string name="itis">Итис</string>
 </resources>

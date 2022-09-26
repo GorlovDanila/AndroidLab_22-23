@@ -3,16 +3,503 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:elevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            app:logo="@drawable/ic_baseline_menu_24"
+            app:menu="@menu/menu_main">
+
+            <TextView
+                android:id="@+id/tv_page_name"
+                style="@style/DirectoriesTextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:gravity="center_vertical"
+                android:text="@string/page_title"
+                android:textSize="17sp" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_floating_action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline_button"
+        app:layout_constraintTop_toBottomOf="@id/guideline_fifth_chat"
+        app:layout_constraintVertical_bias="0.9"
+        app:srcCompat="@drawable/ic_baseline_create_24" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_percent="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_all"
+        style="@style/DirectoriesTextViewStyle"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:text="@string/all"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@id/guideline_directories"
+        app:layout_constraintEnd_toStartOf="@id/tv_personal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appbar" />
+
+    <TextView
+        android:id="@+id/tv_personal"
+        style="@style/DirectoriesTextViewStyle"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:text="@string/personal"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@id/guideline_directories"
+        app:layout_constraintEnd_toStartOf="@id/tv_itis"
+        app:layout_constraintStart_toEndOf="@id/tv_all"
+        app:layout_constraintTop_toBottomOf="@id/appbar" />
+
+    <TextView
+        android:id="@+id/tv_itis"
+        style="@style/DirectoriesTextViewStyle"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:text="@string/itis"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@id/guideline_directories"
+        app:layout_constraintEnd_toStartOf="@id/tv_empty"
+        app:layout_constraintStart_toEndOf="@id/tv_personal"
+        app:layout_constraintTop_toBottomOf="@id/appbar" />
+
+    <TextView
+        android:id="@+id/tv_empty"
+        style="@style/DirectoriesTextViewStyle"
+        android:layout_width="235dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/guideline_directories"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_itis"
+        app:layout_constraintTop_toBottomOf="@id/appbar" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_directories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_percent="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_icon_space"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toTopOf="@id/guideline_first_chat"
+        app:layout_constraintEnd_toStartOf="@id/tv_title_space_channel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline_directories"
+        app:srcCompat="@drawable/space" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_first_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_percent="0.19015048"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_title_space_channel"
+        style="@style/TitleChatsTextViewStyle"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/bases"
+        app:layout_constraintBottom_toTopOf="@id/tv_text_first_message"
+        app:layout_constraintEnd_toStartOf="@id/tv_date"
+        app:layout_constraintStart_toEndOf="@id/iv_icon_space"
+        app:layout_constraintTop_toBottomOf="@id/guideline_directories" />
+
+    <TextView
+        android:id="@+id/tv_text_first_message"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="@string/kirill_notes_rar"
+        android:textColor="@color/blue"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toTopOf="@id/guideline_first_chat"
+        app:layout_constraintEnd_toStartOf="@id/tv_count_message_first"
+        app:layout_constraintStart_toEndOf="@id/iv_icon_space"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_space_channel" />
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="24dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/fr"
+        android:textAlignment="center"
+        android:textColor="@color/grey"
+        app:layout_constraintBottom_toTopOf="@id/tv_count_message_first"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_title_space_channel"
+        app:layout_constraintTop_toBottomOf="@id/guideline_directories" />
+
+    <TextView
+        android:id="@+id/tv_count_message_first"
+        style="@style/RoundTextViewStyle"
+        android:layout_width="24dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="@string/_11"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@id/guideline_first_chat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_text_first_message"
+        app:layout_constraintTop_toBottomOf="@id/tv_date" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_second_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_percent="0.28"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_icon_sun"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toTopOf="@id/guideline_second_chat"
+        app:layout_constraintEnd_toStartOf="@id/tv_title_sun_channel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline_first_chat"
+        app:srcCompat="@drawable/icon_sun" />
+
+    <TextView
+        android:id="@+id/tv_title_sun_channel"
+        style="@style/TitleChatsTextViewStyle"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/energy"
+        app:layout_constraintBottom_toTopOf="@id/tv_text_second_message"
+        app:layout_constraintEnd_toStartOf="@id/tv_date_second"
+        app:layout_constraintStart_toEndOf="@id/iv_icon_sun"
+        app:layout_constraintTop_toBottomOf="@id/guideline_first_chat" />
+
+    <TextView
+        android:id="@+id/tv_text_second_message"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="@string/anonym"
+        android:textColor="@color/blue"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toTopOf="@id/guideline_second_chat"
+        app:layout_constraintEnd_toStartOf="@id/tv_count_message_second"
+        app:layout_constraintStart_toEndOf="@id/iv_icon_sun"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_sun_channel" />
+
+    <TextView
+        android:id="@+id/tv_date_second"
+        android:layout_width="24dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/mon"
+        android:textAlignment="center"
+        android:textColor="@color/grey"
+        app:layout_constraintBottom_toTopOf="@id/tv_count_message_second"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_title_sun_channel"
+        app:layout_constraintTop_toBottomOf="@id/guideline_first_chat" />
+
+    <TextView
+        android:id="@+id/tv_count_message_second"
+        style="@style/RoundTextViewStyle"
+        android:layout_width="24dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="@string/_35"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@id/guideline_second_chat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_text_second_message"
+        app:layout_constraintTop_toBottomOf="@id/tv_date_second" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_third_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_percent="0.37"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_owl_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toTopOf="@id/guideline_third_chat"
+        app:layout_constraintEnd_toStartOf="@id/tv_title_owl_channel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline_second_chat"
+        app:srcCompat="@drawable/owl" />
+
+    <TextView
+        android:id="@+id/tv_title_owl_channel"
+        style="@style/TitleChatsTextViewStyle"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/world"
+        app:layout_constraintBottom_toTopOf="@id/tv_text_third_message"
+        app:layout_constraintEnd_toStartOf="@id/tv_date_third"
+        app:layout_constraintStart_toEndOf="@id/iv_owl_icon"
+        app:layout_constraintTop_toBottomOf="@id/guideline_second_chat" />
+
+    <TextView
+        android:id="@+id/tv_text_third_message"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="@string/owl1"
+        android:textColor="@color/blue"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toTopOf="@id/guideline_third_chat"
+        app:layout_constraintEnd_toStartOf="@id/tv_count_message_third"
+        app:layout_constraintStart_toEndOf="@id/iv_owl_icon"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_owl_channel" />
+
+    <TextView
+        android:id="@+id/tv_date_third"
+        android:layout_width="24dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/wen"
+        android:textAlignment="center"
+        android:textColor="@color/grey"
+        app:layout_constraintBottom_toTopOf="@id/tv_count_message_third"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_title_owl_channel"
+        app:layout_constraintTop_toBottomOf="@id/guideline_second_chat" />
+
+    <TextView
+        android:id="@+id/tv_count_message_third"
+        style="@style/RoundTextViewStyle"
+        android:layout_width="24dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="@string/_1"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@id/guideline_third_chat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_text_third_message"
+        app:layout_constraintTop_toBottomOf="@id/tv_date_third" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_fourth_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_percent="0.46"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_miami_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toTopOf="@id/guideline_fourth_chat"
+        app:layout_constraintEnd_toStartOf="@id/tv_title_miami_channel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline_third_chat"
+        app:srcCompat="@drawable/miami" />
+
+    <TextView
+        android:id="@+id/tv_title_miami_channel"
+        style="@style/TitleChatsTextViewStyle"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/retrowave"
+        app:layout_constraintBottom_toTopOf="@id/tv_text_fourth_message"
+        app:layout_constraintEnd_toStartOf="@id/tv_date_fourth"
+        app:layout_constraintStart_toEndOf="@id/iv_miami_icon"
+        app:layout_constraintTop_toBottomOf="@id/guideline_third_chat" />
+
+    <TextView
+        android:id="@+id/tv_text_fourth_message"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="@string/cloudjunior"
+        android:textColor="@color/blue"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toTopOf="@id/guideline_fourth_chat"
+        app:layout_constraintEnd_toStartOf="@id/tv_count_message_fourth"
+        app:layout_constraintStart_toEndOf="@id/iv_miami_icon"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_miami_channel" />
+
+    <TextView
+        android:id="@+id/tv_date_fourth"
+        android:layout_width="24dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/sun"
+        android:textAlignment="center"
+        android:textColor="@color/grey"
+        app:layout_constraintBottom_toTopOf="@id/tv_count_message_fourth"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_title_miami_channel"
+        app:layout_constraintTop_toBottomOf="@id/guideline_third_chat" />
+
+    <TextView
+        android:id="@+id/tv_count_message_fourth"
+        style="@style/RoundTextViewStyle"
+        android:layout_width="24dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="@string/_7"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@id/guideline_fourth_chat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_text_fourth_message"
+        app:layout_constraintTop_toBottomOf="@id/tv_date_fourth" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_fifth_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_percent="0.55"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_pyro_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toTopOf="@id/guideline_fifth_chat"
+        app:layout_constraintEnd_toStartOf="@id/tv_title_pyro_channel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline_fourth_chat"
+        app:srcCompat="@drawable/pyro" />
+
+    <TextView
+        android:id="@+id/tv_title_pyro_channel"
+        style="@style/TitleChatsTextViewStyle"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/pyrofans"
+        app:layout_constraintBottom_toTopOf="@id/tv_text_five_message"
+        app:layout_constraintEnd_toStartOf="@id/tv_date_five"
+        app:layout_constraintStart_toEndOf="@id/iv_pyro_icon"
+        app:layout_constraintTop_toBottomOf="@id/guideline_fourth_chat" />
+
+    <TextView
+        android:id="@+id/tv_text_five_message"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="@string/lj_https_music_yandex_ru_album_23258611"
+        android:textColor="@color/blue"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toTopOf="@id/guideline_fifth_chat"
+        app:layout_constraintEnd_toStartOf="@id/tv_count_message_five"
+        app:layout_constraintStart_toEndOf="@id/iv_pyro_icon"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_pyro_channel" />
+
+    <TextView
+        android:id="@+id/tv_date_five"
+        android:layout_width="24dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/sun"
+        android:textAlignment="center"
+        android:textColor="@color/grey"
+        app:layout_constraintBottom_toTopOf="@id/tv_count_message_five"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_title_pyro_channel"
+        app:layout_constraintTop_toBottomOf="@id/guideline_fourth_chat" />
+
+    <TextView
+        android:id="@+id/tv_count_message_five"
+        style="@style/RoundTextViewStyle"
+        android:layout_width="24dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="@string/_25"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@id/guideline_fifth_chat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_text_five_message"
+        app:layout_constraintTop_toBottomOf="@id/tv_date_five" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
