@@ -20,7 +20,8 @@ class MainActivity : AppCompatActivity() {
             if (binding?.tvAll?.visibility == View.INVISIBLE &&
                 binding?.tvPersonal?.visibility == View.INVISIBLE &&
                 binding?.tvItis?.visibility == View.INVISIBLE &&
-                binding?.tvEmpty?.visibility == View.INVISIBLE) {
+                binding?.tvEmpty?.visibility == View.INVISIBLE
+            ) {
                 binding?.tvAll?.visibility = View.VISIBLE
                 binding?.tvPersonal?.visibility = View.VISIBLE
                 binding?.tvItis?.visibility = View.VISIBLE
