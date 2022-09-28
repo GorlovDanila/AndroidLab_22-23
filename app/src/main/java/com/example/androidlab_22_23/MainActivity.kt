@@ -25,11 +25,23 @@ class MainActivity : AppCompatActivity() {
                 binding?.tvPersonal?.visibility = View.VISIBLE
                 binding?.tvItis?.visibility = View.VISIBLE
                 binding?.tvEmpty?.visibility = View.VISIBLE
+                binding?.guidelineDirectories?.setGuidelinePercent(0.1F)
+                binding?.guidelineFirstChat?.setGuidelinePercent(0.19F)
+                binding?.guidelineSecondChat?.setGuidelinePercent(0.28F)
+                binding?.guidelineThirdChat?.setGuidelinePercent(0.37F)
+                binding?.guidelineFourthChat?.setGuidelinePercent(0.46F)
+                binding?.guidelineFifthChat?.setGuidelinePercent(0.55F)
             } else {
                 binding?.tvAll?.visibility = View.INVISIBLE
                 binding?.tvPersonal?.visibility = View.INVISIBLE
                 binding?.tvItis?.visibility = View.INVISIBLE
                 binding?.tvEmpty?.visibility = View.INVISIBLE
+                binding?.guidelineDirectories?.setGuidelinePercent(0.08F)
+                binding?.guidelineFirstChat?.setGuidelinePercent(0.17F)
+                binding?.guidelineSecondChat?.setGuidelinePercent(0.26F)
+                binding?.guidelineThirdChat?.setGuidelinePercent(0.35F)
+                binding?.guidelineFourthChat?.setGuidelinePercent(0.44F)
+                binding?.guidelineFifthChat?.setGuidelinePercent(0.53F)
             }
         }
     }
