@@ -10,18 +10,20 @@ import com.example.androidlab_22_23.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private var binding: ActivityMainBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
-//        val intent = Intent()
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)?.also {
             setContentView(it.root)
         }
 
         binding?.btnSendMessage?.setOnClickListener {
-//            val intent = Intent(this, ShareActivity::class.java)
             val intent = Intent(Intent.ACTION_SEND)
             intent.action = Intent.ACTION_SEND
             intent.putExtra(Intent.EXTRA_TEXT, "Hello!")
             intent.type = "text/plan"
+            val chooserIntent = Intent.createChooser(
+                intent,
+                "Choose"
+            )
             if (intent.resolveActivity(packageManager) != null) {
                 startActivity(intent)
             }
