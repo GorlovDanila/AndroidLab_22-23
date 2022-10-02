@@ -6,13 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+   <androidx.constraintlayout.widget.Guideline
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       app:layout_constraintGuide_percent="0.4"/>
 
+    <Button
+        android:id="@+id/btn_send_message"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="@string/send_message"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_call"/>
+
+    <Button
+        android:id="@+id/btn_call"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="@string/go_call"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_send_message"
+        app:layout_constraintBottom_toTopOf="@id/btn_documentation"/>
+
+    <Button
+        android:id="@+id/btn_documentation"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="@string/open_documentation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_call"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
