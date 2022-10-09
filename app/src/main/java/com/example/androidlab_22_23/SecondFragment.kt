@@ -10,7 +10,7 @@ class SecondFragment : Fragment(R.layout.fragment_second) {
     private var binding: FragmentSecondBinding? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var counterFromBundle: Int? = arguments?.getInt(ARG_COUNTER_VALUE)
+        val counterFromBundle: Int? = arguments?.getInt(ARG_COUNTER_VALUE)
         if (counterFromBundle.toString().toInt() in 0..50) {
             val colorValue = ContextCompat.getColor(requireContext(), R.color.purple_200)
             view.setBackgroundColor(colorValue)
@@ -30,12 +30,9 @@ class SecondFragment : Fragment(R.layout.fragment_second) {
 
         binding?.run {
             binding!!.tvCounter.text = "Counter value: $counterFromBundle"
-
-//            if (counterFromBundle.toString().toInt() in 0..50) {
-//                val colorValue = ContextCompat.getColor(context, R.color.purple_200)
-//                binding!!.setBackgroundColor(colorValue)
-//
-//            }
+            if (counterFromBundle != null) {
+                MainFragment.newInstanceDialog(counterFromBundle)
+            }
         }
     }
 

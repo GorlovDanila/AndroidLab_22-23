@@ -1,17 +1,37 @@
 package com.example.androidlab_22_23
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.example.androidlab_22_23.databinding.FragmentMainBinding
 
 class MainFragment : Fragment(R.layout.fragment_main) {
+    private var counter: Int = 0
     private var binding: FragmentMainBinding? = null
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("count", counter)
+    }
+
+    //    override fun onCreateView(
+//        inflater: LayoutInflater,
+//        container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//        return super.onCreateView(inflater, container, savedInstanceState)
+//    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentMainBinding.bind(view)
-        var counterFromDialog: Int? = arguments?.getInt(ARG_COUNTER_VALUE_DIALOG)
-        var counter = 0
+//        MainFragment.setRetainInstance(true)
+        if (savedInstanceState != null) {
+            counter = savedInstanceState.getInt("count")
+        }
+        val counterFromDialog: Int? = arguments?.getInt(ARG_COUNTER_VALUE_DIALOG)
+        Log.e("FFFFF", counterFromDialog.toString())
         if (counterFromDialog != null) {
             counter = counterFromDialog.toInt()
         }
