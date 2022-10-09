@@ -2,4 +2,8 @@
     <string name="app_name">AndroidLab_22-23</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="next_fragment">Next Fragment</string>
+    <string name="counter_plus_one">Сounter + 1</string>
+    <string name="open_dialogfragment">Open DialogFragment</string>
+    <string name="counter_value_0">Counter value: 0</string>
 </resources>
