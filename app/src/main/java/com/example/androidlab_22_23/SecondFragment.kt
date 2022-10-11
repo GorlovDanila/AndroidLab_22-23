@@ -26,13 +26,11 @@ class SecondFragment : Fragment(R.layout.fragment_second) {
             view.setBackgroundColor(colorValue)
 
         }
+
         binding = FragmentSecondBinding.bind(view)
 
         binding?.run {
             binding!!.tvCounter.text = "Counter value: $counterFromBundle"
-            if (counterFromBundle != null) {
-                MainFragment.newInstanceDialog(counterFromBundle)
-            }
         }
     }
 
