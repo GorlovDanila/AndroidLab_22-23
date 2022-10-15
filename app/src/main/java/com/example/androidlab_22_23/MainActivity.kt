@@ -3,6 +3,7 @@ package com.example.androidlab_22_23
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.androidlab_22_23.databinding.ActivityMainBinding
+import com.example.androidlab_22_23.fragments.MainFragment
 
 class MainActivity : AppCompatActivity() {
     private var binding: ActivityMainBinding? = null
