@@ -19,15 +19,6 @@ class CharacterHolder(
         .diskCacheStrategyOf(DiskCacheStrategy.ALL)
         .priority(Priority.HIGH)
 
-//    private var character: Character? = null
-//
-//    init {
-//        // use only one [setOnClickListener]
-//        itemView.setOnClickListener {
-//            character?.also(action)
-//        }
-//    }
-
     fun onBind(character: Character) {
         with(binding) {
             tvTitle.text = character.name
@@ -44,34 +35,6 @@ class CharacterHolder(
             root.setOnClickListener {
                 action(character)
             }
-
-//            tvTitle.setTextColor(
-//                itemView.context.getColor(character.titleColor)
-//            )
-
-//            tvTitle.typeface = ResourcesCompat.getFont(itemView.context, book.font)
-            /* bad way
-            if (book.name == "Naruto") {
-                tvTitle.setTextColor(
-                    itemView.context.getColor(R.color.purple_700)
-                )
-            } else {
-                tvTitle.setTextColor(
-                    itemView.context.getColor(R.color.black)
-                )
-            }
-            */
-
-//            glide
-//                .load(character.cover)
-//                .apply(option)
-//                .placeholder(R.drawable.cote_error_2)
-//                .error(R.drawable.cote)
-//                .into(ivCover)
         }
     }
-
-//    fun updateCheck(isState: Boolean) {
-//
-//    }
 }

@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.androidlab_22_23.adapter.CharacterAdapter
-import com.example.androidlab_22_23.adapter.CharacterHolder
 import com.example.androidlab_22_23.model.CharacterRepository
 import com.example.androidlab_22_23.R
 import com.example.androidlab_22_23.databinding.FragmentMainBinding
@@ -20,17 +19,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentMainBinding.bind(view)
-//        (activity as AppCompatActivity?)!!.setSupportActionBar()
-//        setSupportActionBar(toolbar)
-//        if ((activity as AppCompatActivity?)!!.supportActionBar != null) {
-//            (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-//        }
-//        val glide = Glide.with(this@MainFragment)
-//        CharacterRepository.characters.forEach {
-//         glide.load(it.cover)
-//             .apply(R.drawable.load)
-//             .preload()
-//        }
+
         binding?.run {
             val itemDecoration: RecyclerView.ItemDecoration =
                 DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
