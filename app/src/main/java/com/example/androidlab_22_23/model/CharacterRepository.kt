@@ -1,7 +1,5 @@
 package com.example.androidlab_22_23.model
 
-import com.example.androidlab_22_23.model.Character
-
 object CharacterRepository {
     val characters = arrayListOf(
         Character(

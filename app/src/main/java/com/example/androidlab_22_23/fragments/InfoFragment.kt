@@ -22,7 +22,6 @@ class InfoFragment : Fragment(R.layout.fragment_info) {
         binding = FragmentInfoBinding.bind(view)
         val toolbar = view.findViewById(R.id.toolbar) as Toolbar
         (activity as AppCompatActivity?)!!.setSupportActionBar(toolbar)
-//        setSupportActionBar(toolbar)
         if ((activity as AppCompatActivity?)!!.supportActionBar != null) {
             (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(false)
         }

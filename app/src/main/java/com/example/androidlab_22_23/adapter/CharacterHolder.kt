@@ -18,6 +18,7 @@ class CharacterHolder(
     private val option = RequestOptions
         .diskCacheStrategyOf(DiskCacheStrategy.ALL)
         .priority(Priority.HIGH)
+
 //    private var character: Character? = null
 //
 //    init {
@@ -35,7 +36,7 @@ class CharacterHolder(
             glide
                 .load(character.cover)
                 .apply(option)
-                .centerCrop()
+                .fitCenter()
                 .placeholder(R.drawable.load)
                 .error(R.drawable.error)
                 .into(ivCover)
