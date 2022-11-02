@@ -2,27 +2,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/main_fragment"
+        android:id="@+id/mainFragment"
         android:icon="@drawable/ic_baseline_home_24"
         android:title="Home" />
 
     <item
-        android:id="@+id/services_fragment"
+        android:id="@+id/nested_graph"
         android:icon="@drawable/ic_baseline_miscellaneous_services_24"
         android:title="Services" />
 
     <item
-        android:id="@+id/messenger_fragment"
+        android:id="@+id/messengerFragment"
         android:icon="@drawable/ic_baseline_message_24"
         android:title="Messenger" />
 
     <item
-        android:id="@+id/clips_fragment"
+        android:id="@+id/clipsFragment"
         android:icon="@drawable/ic_baseline_amp_stories_24"
         android:title="Clips" />
 
     <item
-        android:id="@+id/videos_fragment"
+        android:id="@+id/videosFragment"
         android:icon="@drawable/ic_baseline_video_library_24"
         android:title="Videos" />
 

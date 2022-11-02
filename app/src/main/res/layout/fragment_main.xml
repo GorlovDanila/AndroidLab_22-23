@@ -2,45 +2,19 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/purple_700">
 
-    <Button
-        android:id="@+id/btn_first"
-        android:layout_width="250dp"
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="FirstFragment"
-        app:layout_constraintBottom_toTopOf="@id/btn_second"
+        android:text="@string/mainfragment"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btn_second"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:text="SecondFragment"
-        app:layout_constraintBottom_toTopOf="@id/btn_third"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_first" />
-
-    <Button
-        android:id="@+id/btn_third"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:text="ThirdFragment"
-        app:layout_constraintTop_toBottomOf="@id/btn_second"
-        app:layout_constraintBottom_toTopOf="@id/btn_fourth"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <Button
-        android:id="@+id/btn_fourth"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:text="FourthFragment"
-        app:layout_constraintTop_toBottomOf="@id/btn_third"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
