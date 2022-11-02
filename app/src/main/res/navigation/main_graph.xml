@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.androidlab_22_23.fragments.MainFragment"
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_main_fragment_to_clips_fragment"
+            app:destination="@id/clipsFragment" />
+        <action
+            android:id="@+id/action_main_fragment_to_messenger_fragment"
+            app:destination="@id/messengerFragment" />
+        <action
+            android:id="@+id/action_main_fragment_to_videos_fragment"
+            app:destination="@id/videosFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_nested_graph"
+            app:destination="@id/nested_graph" />
+    </fragment>
+
+    <include app:graph="@navigation/nested_graph" />
+
+    <fragment
+        android:id="@+id/clipsFragment"
+        android:name="com.example.androidlab_22_23.fragments.ClipsFragment"
+        android:label="ClipsFragment"
+        tools:layout="@layout/fragment_clips">
+    </fragment>
+
+    <fragment
+        android:id="@+id/messengerFragment"
+        android:name="com.example.androidlab_22_23.fragments.MessengerFragment"
+        android:label="MessengerFragment"
+        tools:layout="@layout/fragment_messenger">
+    </fragment>
+
+    <fragment
+        android:id="@+id/videosFragment"
+        android:name="com.example.androidlab_22_23.fragments.VideosFragment"
+        android:label="VideosFragment"
+        tools:layout="@layout/fragment_videos">
+    </fragment>
+</navigation>

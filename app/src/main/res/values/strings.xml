@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">AndroidLab_22-23</string>
+    <string name="shopfragment">ShopFragment</string>
+    <string name="musicfragment">MusicFragment</string>
+    <string name="messengerfragment">MessengerFragment</string>
+    <string name="videosfragment">VideosFragment</string>
+    <string name="servicesfragment">ServicesFragment</string>
+    <string name="clipsfragment">ClipsFragment</string>
+    <string name="profilefragment">ProfileFragment</string>
+    <string name="profile_fragment">Profile Fragment</string>
+    <string name="friends_fragment">Friends Fragment</string>
+    <string name="music_fragment">Music Fragment</string>
+    <string name="shop_fragment">Shop Fragment</string>
+    <string name="mainfragment">MainFragment</string>
+    <string name="friendsfragment">FriendsFragment</string>
 </resources>
