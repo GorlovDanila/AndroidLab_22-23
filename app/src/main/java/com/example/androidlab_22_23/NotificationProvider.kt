@@ -1,5 +1,6 @@
 package com.example.androidlab_22_23
 
+import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -10,6 +11,7 @@ import android.media.AudioAttributes
 import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import java.util.*
 
 class NotificationProvider(private val context: Context) {
 
@@ -68,5 +70,15 @@ class NotificationProvider(private val context: Context) {
                 notificationManager.createNotificationChannel(it)
             }
         }
+    }
+
+    fun setAlarm(calendar: Calendar) {
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager?
+        val intent = Intent(context, AlarmReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
+        alarmManager?.set(
+            AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
+            pendingIntent
+        )
     }
 }

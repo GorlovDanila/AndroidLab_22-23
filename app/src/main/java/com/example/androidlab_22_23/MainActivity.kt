@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.androidlab_22_23.databinding.ActivityMainBinding
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -28,10 +27,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedPreferences = applicationContext.getSharedPreferences("myTime", Context.MODE_PRIVATE)
-//        if(sharedPreferences!!.contains("AlarmTime")) {
-//            calendar?.timeInMillis = sharedPreferences!!.getLong("AlarmTime", 0)
-//            setAlarm()
-//        }
+
+        notificationProvider = NotificationProvider(this)
+        notificationProvider?.createNotificationChannel()
         binding = ActivityMainBinding.inflate(layoutInflater).also {
             setContentView(it.root)
         }
@@ -43,15 +41,12 @@ class MainActivity : AppCompatActivity() {
                 showDatePicker()
             }
             btnStart.setOnClickListener {
-                setAlarm(calendar!!)
+                notificationProvider?.setAlarm(calendar!!)
             }
             btnEnd.setOnClickListener {
                 cancelAlarm()
             }
         }
-
-        notificationProvider = NotificationProvider(this)
-        notificationProvider?.createNotificationChannel()
     }
 
     private fun showTimePicker() {
@@ -60,41 +55,59 @@ class MainActivity : AppCompatActivity() {
             .build()
         timePicker?.show(supportFragmentManager, "Time")
 
-        timePicker!!.addOnPositiveButtonClickListener {
-            calendar = Calendar.getInstance()
-            calendar!!.set(Calendar.HOUR_OF_DAY, timePicker!!.hour)
-            calendar!!.set(Calendar.MINUTE, timePicker!!.minute)
-            Log.e("CALENDAR", calendar!!.timeInMillis.toString())
+        timePicker?.addOnPositiveButtonClickListener {
+            if (calendar == null) {
+                calendar = Calendar.getInstance()
+            }
+            if(calendar != null) {
+                calendar!!.set(Calendar.HOUR_OF_DAY, timePicker!!.hour)
+                calendar!!.set(Calendar.MINUTE, timePicker!!.minute)
+                calendar!!.set(Calendar.SECOND, 0)
+                calendar!!.set(Calendar.MILLISECOND, 0)
+            }
+
             sharedPreferences?.edit()?.putLong("AlarmTime", calendar!!.timeInMillis)?.apply()
+            sharedPreferences?.edit()?.putInt("HOUR_OF_DAY", timePicker!!.hour)?.apply()
+            sharedPreferences?.edit()?.putInt("MINUTE", timePicker!!.minute)?.apply()
+
             binding!!.tvTime.text = "Выбранное время: " + String.format(
                 "%02d",
-                (timePicker!!.hour)
-            ) + " : " + String.format("%02d", timePicker!!.minute)
+                (timePicker?.hour)
+            ) + " : " + String.format("%02d", timePicker?.minute)
         }
 
-        timePicker!!.addOnNegativeButtonClickListener {
-            timePicker!!.dismiss()
+        timePicker?.addOnNegativeButtonClickListener {
+            timePicker?.dismiss()
         }
     }
 
     private fun showDatePicker() {
         datePicker = MaterialDatePicker.Builder.datePicker().build()
-        datePicker!!.show(supportFragmentManager, "Date")
+        datePicker?.show(supportFragmentManager, "Date")
 
-        datePicker!!.addOnPositiveButtonClickListener {
-            binding!!.tvDate.text = "Выбранная дата: ${datePicker!!.headerText}"
+        datePicker?.addOnPositiveButtonClickListener {
+            binding?.tvDate?.text = "Выбранная дата: ${datePicker?.headerText}"
             val date: List<String> = datePicker?.headerText.toString().split(", ")
             val day: String = date.toString().split(" ")[1].split(",")[0]
             val month: Int = getMonth(date[0].split(" ")[0])
-//            calendar = Calendar.getInstance()
-//            calendar!!.set(Calendar.YEAR, date[1].toInt())
-//            calendar!!.set(Calendar.DAY_OF_YEAR, day.toInt())
-//            calendar!!.set(Calendar.MONTH, month)
+
+            if (calendar == null) {
+                calendar = Calendar.getInstance()
+            }
+            if(calendar != null) {
+                calendar!!.set(Calendar.YEAR, date[1].toInt())
+                calendar!!.set(Calendar.DAY_OF_MONTH, day.toInt())
+                calendar!!.set(Calendar.MONTH, month)
+            }
+
             sharedPreferences?.edit()?.putLong("AlarmTime", calendar!!.timeInMillis)?.apply()
+            sharedPreferences?.edit()?.putInt("YEAR", date[1].toInt())?.apply()
+            sharedPreferences?.edit()?.putInt("DAY_OF_MONTH", day.toInt())?.apply()
+            sharedPreferences?.edit()?.putInt("MONTH", month)?.apply()
         }
 
-        datePicker!!.addOnNegativeButtonClickListener {
-            datePicker!!.dismiss()
+        datePicker?.addOnNegativeButtonClickListener {
+            datePicker?.dismiss()
         }
     }
 
@@ -116,20 +129,10 @@ class MainActivity : AppCompatActivity() {
         var position = 0
         for (i: Int in list.indices) {
             if (month == list[i]) {
-                position = i + 1
+                position = i
             }
         }
         return position
-    }
-
-    fun setAlarm(calendar: Calendar) {
-        alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager?
-        val intent = Intent(this, AlarmReceiver::class.java)
-        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0)
-        alarmManager?.set(
-            AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
-            pendingIntent
-        )
     }
 
     private fun cancelAlarm() {
@@ -141,7 +144,7 @@ class MainActivity : AppCompatActivity() {
             alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
         }
 
-        alarmManager!!.cancel(pendingIntent)
+        alarmManager?.cancel(pendingIntent)
         calendar = null
         binding?.tvTime?.text = "Выберите время"
         binding?.tvDate?.text = "Выберите дату"
