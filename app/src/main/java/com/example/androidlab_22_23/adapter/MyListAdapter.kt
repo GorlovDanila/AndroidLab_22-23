@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.androidlab_22_23.R
 import com.example.androidlab_22_23.model.Song
 
-class MyListAdapter() : ListAdapter<Song, RecyclerView.ViewHolder>(
+class MyListAdapter(
+    private val action: (Song) -> Unit,
+) : ListAdapter<Song, RecyclerView.ViewHolder>(
     object : DiffUtil.ItemCallback<Song>() {
         override fun areItemsTheSame(
             oldItem: Song,
@@ -25,7 +27,7 @@ class MyListAdapter() : ListAdapter<Song, RecyclerView.ViewHolder>(
         viewType: Int
     ): RecyclerView.ViewHolder =
         when (viewType) {
-            R.layout.item_song -> SongHolder.create(parent)
+            R.layout.item_song -> SongHolder.create(parent, action)
 //            R.layout.item_character -> CharacterHolder.create(parent, glide, deleteItem)
             else -> throw IllegalArgumentException()
         }

@@ -5,41 +5,32 @@ import com.example.androidlab_22_23.databinding.ItemSongBinding
 import com.example.androidlab_22_23.model.Song
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.net.toUri
-import com.bumptech.glide.Priority
-import com.bumptech.glide.RequestManager
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
+import com.example.androidlab_22_23.R
 
 class SongHolder(
     private val binding: ItemSongBinding,
+    private val action: (Song) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     private var song: Song? = null
 
-    private val option = RequestOptions
-        .diskCacheStrategyOf(DiskCacheStrategy.ALL)
-        .priority(Priority.HIGH)
+    init {
+        itemView.setOnClickListener {
+            song?.also(action)
+            //it.setBackgroundColor(Color.BLUE)
+        }
+    }
 
-    //    init {
-//        itemView.setOnClickListener {
-//            song?.also(action)
-//        }
-//    }
     fun onBind(song: Song) {
         this.song = song
         with(binding) {
-            ivCover.setImageURI(song.cover.toString().toUri())
+            ivCover.setImageResource(song.cover)
             tvTitle.text = song.title
             tvAuthor.text = song.author
-            tvAlbum.text = song.album
+            if(song.isPlaying) {
+                ivIcon.setImageResource(R.drawable.ic_baseline_music_note_24)
+            }
+//            tvAlbum.text = song.album
 
-//            glide
-//                .load(character.cover)
-//                .apply(option)
-//                .fitCenter()
-//                .placeholder(R.drawable.load)
-//                .error(R.drawable.error)
-//                .into(ivCover)
         }
     }
 
@@ -49,12 +40,14 @@ class SongHolder(
             parent: ViewGroup,
 //            glide: RequestManager,
 //            deleteItem: ((Int)) -> Unit,
+            action: (Song) -> Unit
         ): SongHolder = SongHolder(
             binding = ItemSongBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
             ),
+            action = action
 //            glide = glide,
 //            deleteItem = deleteItem,
         )

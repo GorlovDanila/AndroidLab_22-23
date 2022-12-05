@@ -10,5 +10,5 @@ data class Song(
     @RawRes val audio: Int,
     val author: String,
     val album: String,
-) {
-}
+    var isPlaying: Boolean,
+)
