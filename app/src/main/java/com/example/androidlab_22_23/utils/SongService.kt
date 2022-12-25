@@ -5,11 +5,16 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Binder
 import android.os.IBinder
+import android.os.Parcelable
 import android.util.Log
+import com.example.androidlab_22_23.fragments.DetailFragment
+import kotlinx.coroutines.NonCancellable.start
+import java.time.temporal.TemporalAdjusters.next
+import java.time.temporal.TemporalAdjusters.previous
 
 class SongService : Service() {
 
-    private var mediaPlayer = MediaPlayer()
+    var mediaPlayer = MediaPlayer()
 
     inner class SongBinder : Binder() {
 
@@ -65,6 +70,8 @@ class SongService : Service() {
                 stop()
             }
         }
+//        Intent(applicationContext, DetailFragment::class.java).putExtra("DURATION", mediaPlayer.duration)
+        Log.e("MPSERV", mediaPlayer.toString())
     }
 
     private fun pause() {
@@ -83,5 +90,4 @@ class SongService : Service() {
     private fun next(raw: Int) {
         play(raw)
     }
-
 }

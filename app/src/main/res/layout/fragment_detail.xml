@@ -48,11 +48,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_author"
-        app:layout_constraintBottom_toTopOf="@id/pb_status"/>
+        app:layout_constraintBottom_toTopOf="@id/sk_status"/>
 
-    <ProgressBar
-        android:id="@+id/pb_status"
-        style="?android:attr/progressBarStyleHorizontal"
+    <SeekBar
+        android:id="@+id/sk_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -60,7 +59,19 @@
         app:layout_constraintBottom_toTopOf="@id/iv_play"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_album" />
+        app:layout_constraintTop_toBottomOf="@id/tv_album"/>
+
+<!--    <ProgressBar-->
+<!--        android:id="@+id/pb_status"-->
+<!--        style="?android:attr/progressBarStyleHorizontal"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/iv_play"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/tv_album" />-->
 
     <TextView
         android:id="@+id/tv_start"
@@ -70,7 +81,7 @@
         android:text="@string/_0_00"
         android:layout_marginBottom="50dp"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintTop_toBottomOf="@id/pb_status"
+        app:layout_constraintTop_toBottomOf="@id/sk_status"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/iv_play"
         app:layout_constraintEnd_toStartOf="@id/tv_current"/>
@@ -84,7 +95,7 @@
         android:layout_marginBottom="50dp"
         app:layout_constraintStart_toEndOf="@id/tv_start"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pb_status"
+        app:layout_constraintTop_toBottomOf="@id/sk_status"
         app:layout_constraintBottom_toTopOf="@id/iv_play" />
 
 
@@ -107,7 +118,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/iv_next"
         app:layout_constraintStart_toEndOf="@id/iv_play"
-        app:layout_constraintTop_toBottomOf="@id/pb_status" />
+        app:layout_constraintTop_toBottomOf="@id/sk_status" />
 
 
     <ImageView
@@ -118,7 +129,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/iv_play"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pb_status" />
+        app:layout_constraintTop_toBottomOf="@id/sk_status" />
 
     <ImageView
         android:id="@+id/iv_next"
@@ -128,6 +139,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_stop"
-        app:layout_constraintTop_toBottomOf="@id/pb_status" />
+        app:layout_constraintTop_toBottomOf="@id/sk_status" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

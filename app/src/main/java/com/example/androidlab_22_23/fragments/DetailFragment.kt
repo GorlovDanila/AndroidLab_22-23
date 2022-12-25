@@ -4,12 +4,10 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
 import android.content.*
-import android.os.Build
-import android.os.Bundle
-import android.os.IBinder
-import android.os.Parcelable
+import android.os.*
 import android.util.Log
 import android.view.View
+import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import com.example.androidlab_22_23.utils.MediaActions
 import com.example.androidlab_22_23.R
@@ -56,6 +54,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createChannel()
             requireContext().registerReceiver(broadcastReceiver, IntentFilter("TRACKS_TRACKS"))
@@ -86,7 +85,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             tvAuthor.text = song.author
             tvAlbum.text = song.album
 //            if(count == 0) {
-                init(song)
+            init(song)
 //            }
             ivPlay.setOnClickListener {
                 playPause()
@@ -100,6 +99,24 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             ivNext.setOnClickListener {
                 next()
             }
+
+            skStatus.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(
+                    seekBar: SeekBar?,
+                    progress: Int,
+                    fromUser: Boolean
+                ) {
+                    if (fromUser) SongService().mediaPlayer.seekTo(progress)
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+                }
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {
+
+                }
+            })
         }
     }
 
@@ -126,7 +143,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             connection,
             Service.BIND_AUTO_CREATE
         )
-        Log.e("binder", binder.toString())
+
         binder?.playMusic(song.audio)
         requireContext().bindService(
             Intent(requireContext(), SongService::class.java).apply {
@@ -149,6 +166,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                     R.drawable.ic_baseline_pause_circle_24,
                 )
                 binding?.ivPlay!!.setImageResource(R.drawable.ic_baseline_pause_circle_24)
+
                 requireContext().bindService(
                     Intent(requireContext(), SongService::class.java).apply {
                         putExtra("MEDIA_ACTION", MediaActions.PLAY as Parcelable)
@@ -159,6 +177,8 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                 )
 
                 binder?.playMusic(song.audio)
+                Log.e("MP", SongService().mediaPlayer.toString())
+                initialiseSeekBer()
             } else {
                 song.isPlaying = false
                 CreateNotification().createNotification(
@@ -290,19 +310,23 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         nextSong = SongRepository.songsList[nextIdFromBundle!!.toInt()]
     }
 
-    fun actionFromNotification(intent: Intent) {
-        idFromBundle = intent.getLongExtra("RAW", 1000)
-        prevIdFromBundle = idFromBundle!! - 1
-        nextIdFromBundle = idFromBundle!! + 1
-        checkIds(prevIdFromBundle, idFromBundle, nextIdFromBundle)
-        intent.getParcelableExtra<MediaActions>("MEDIA_ACTION")?.let {
-            when (it) {
-                MediaActions.PLAY -> playPause()
-                MediaActions.PAUSE -> playPause()
-                MediaActions.STOP -> stop()
-                MediaActions.PREVIOUS -> previous()
-                MediaActions.NEXT -> next()
-            }
+    private fun initialiseSeekBer() {
+        binding?.run {
+
+            skStatus.max = SongService().mediaPlayer.duration
+
+            val handler = Handler(Looper.getMainLooper())
+            handler.postDelayed(object : Runnable {
+                override fun run() {
+                    try {
+                        skStatus.progress = SongService().mediaPlayer.currentPosition
+                        handler.postDelayed(this, 1000)
+                    } catch (e: Exception) {
+                        Log.e("PROGRESS", "0")
+                        skStatus.progress = 0
+                    }
+                }
+            }, 0)
         }
     }
 
