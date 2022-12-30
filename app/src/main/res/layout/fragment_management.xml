@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp">
+
+    <EditText
+        android:id="@+id/et_title"
+        style="@style/UbuntuTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/title"
+        android:textSize="20sp"
+        android:inputType="none"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@id/et_description"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread"
+        android:importantForAutofill="no" />
+
+    <EditText
+        android:id="@+id/et_description"
+        style="@style/UbuntuTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:textSize="20sp"
+        android:hint="@string/description"
+        app:layout_constraintBottom_toTopOf="@id/tv_date"
+        app:layout_constraintTop_toBottomOf="@id/et_title"
+        android:inputType="none"
+        android:importantForAutofill="no" />
+
+    <TextView
+        android:id="@+id/tv_date"
+        style="@style/UbuntuTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="@string/date"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/tv_longitude"
+        app:layout_constraintTop_toBottomOf="@id/et_description" />
+
+    <TextView
+        android:id="@+id/tv_longitude"
+        style="@style/UbuntuTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="@string/longitude"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/tv_latitude"
+        app:layout_constraintTop_toBottomOf="@id/tv_date" />
+
+    <TextView
+        android:id="@+id/tv_latitude"
+        style="@style/UbuntuTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="@string/latitude"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/btn_save"
+        app:layout_constraintTop_toBottomOf="@id/tv_longitude" />
+
+    <Button
+        android:id="@+id/btn_save"
+        style="@style/ButtonMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="@string/save"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_latitude" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
