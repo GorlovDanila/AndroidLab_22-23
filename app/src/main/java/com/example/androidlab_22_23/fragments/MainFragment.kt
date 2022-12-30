@@ -1,18 +1,17 @@
 package com.example.androidlab_22_23.fragments
 
-import android.Manifest
-import android.os.Build.VERSION_CODES.M
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androidlab_22_23.R
 import com.example.androidlab_22_23.adapter.NoteListAdapter
 import com.example.androidlab_22_23.databinding.FragmentMainBinding
@@ -25,30 +24,29 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private var binding: FragmentMainBinding? = null
     private var repository: NoteRepository? = null
     private var listAdapter: NoteListAdapter? = null
-
-    private val permission =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) {
-//                result.launch(null)
-            } else {
-                Toast.makeText(
-                    this@MainFragment.requireContext(),
-                    "Разрешите доступ к камере!",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
+    private var sharedPreferences: SharedPreferences? = null
+    private var currentLayoutManager: String = "GridLayoutManager"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
+        sharedPreferences = requireContext().getSharedPreferences("myLayout", Context.MODE_PRIVATE)
+        if (sharedPreferences != null) {
+            currentLayoutManager = sharedPreferences?.getString("myLayoutType", "").toString()
+        }
         val saveFlag = arguments?.getBoolean(ARG_SAVE_FLAG)
         binding = FragmentMainBinding.bind(view)
         if (saveFlag == true) {
+            currentLayoutManager = arguments?.getString(ARG_LAYOUT_TYPE).toString()
             lifecycleScope.launch {
                 listAdapter?.submitList(repository?.getAll())
                 binding?.rvNote?.adapter = listAdapter
-                binding?.rvNote?.layoutManager = GridLayoutManager(requireContext(), 2)
+                if (currentLayoutManager == "GridLayoutManager") {
+                    binding?.rvNote?.layoutManager = GridLayoutManager(requireContext(), 2)
+                } else {
+                    binding?.rvNote?.layoutManager = LinearLayoutManager(requireContext())
+                }
+                sharedPreferences?.edit()?.putString("myLayoutType", currentLayoutManager)?.apply()
             }
         }
 
@@ -62,7 +60,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     com.google.android.material.R.anim.abc_fade_in,
                     com.google.android.material.R.anim.abc_fade_out
                 )
-                    .replace(R.id.fragment_container, ManagementFragment.newInstance(-1))
+                    .replace(
+                        R.id.fragment_container,
+                        ManagementFragment.newInstance(-1, currentLayoutManager)
+                    )
                     .addToBackStack("ToMainFragment").commit()
             }
         }
@@ -73,11 +74,16 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             if (repository?.getAll()?.size != 0) {
                 listAdapter?.submitList(repository?.getAll())
                 binding?.rvNote?.adapter = listAdapter
-                binding?.rvNote?.layoutManager = GridLayoutManager(requireContext(), 2)
+                if (currentLayoutManager == "GridLayoutManager") {
+                    binding?.rvNote?.layoutManager = GridLayoutManager(requireContext(), 2)
+                } else {
+                    binding?.rvNote?.layoutManager = LinearLayoutManager(requireContext())
+                }
                 binding?.tvStart?.visibility = View.INVISIBLE
             } else {
                 binding?.tvStart?.visibility = View.VISIBLE
             }
+            sharedPreferences?.edit()?.putString("myLayoutType", currentLayoutManager)?.apply()
         }
     }
 
@@ -85,15 +91,16 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         val id = note.id
 
         if (id != null) {
-//           permission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-//            permission.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
             parentFragmentManager.beginTransaction().setCustomAnimations(
                 com.google.android.material.R.anim.abc_fade_in,
                 com.google.android.material.R.anim.abc_fade_out,
                 com.google.android.material.R.anim.abc_fade_in,
                 com.google.android.material.R.anim.abc_fade_out
             )
-                .replace(R.id.fragment_container, ManagementFragment.newInstance(id))
+                .replace(
+                    R.id.fragment_container,
+                    ManagementFragment.newInstance(id, currentLayoutManager)
+                )
                 .addToBackStack("ToMainFragment").commit()
         }
     }
@@ -104,14 +111,23 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             if (repository?.getAll()?.size != 0) {
                 listAdapter?.submitList(repository?.getAll())
                 binding?.rvNote?.adapter = listAdapter
-                binding?.rvNote?.layoutManager = GridLayoutManager(requireContext(), 2)
+                if (currentLayoutManager == "GridLayoutManager") {
+                    binding?.rvNote?.layoutManager = GridLayoutManager(requireContext(), 2)
+                } else {
+                    binding?.rvNote?.layoutManager = LinearLayoutManager(requireContext())
+                }
                 binding?.tvStart?.visibility = View.INVISIBLE
             } else {
                 listAdapter?.submitList(repository?.getAll())
                 binding?.rvNote?.adapter = listAdapter
-                binding?.rvNote?.layoutManager = GridLayoutManager(requireContext(), 2)
+                if (currentLayoutManager == "GridLayoutManager") {
+                    binding?.rvNote?.layoutManager = GridLayoutManager(requireContext(), 2)
+                } else {
+                    binding?.rvNote?.layoutManager = LinearLayoutManager(requireContext())
+                }
                 binding?.tvStart?.visibility = View.VISIBLE
             }
+            sharedPreferences?.edit()?.putString("myLayoutType", currentLayoutManager)?.apply()
         }
     }
 
@@ -128,33 +144,67 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     repository?.deleteAll()
                     listAdapter?.submitList(repository?.getAll())
                     binding?.rvNote?.adapter = listAdapter
-                    binding?.rvNote?.layoutManager = GridLayoutManager(requireContext(), 2)
+                    if (currentLayoutManager == "GridLayoutManager") {
+                        binding?.rvNote?.layoutManager = GridLayoutManager(requireContext(), 2)
+                    } else {
+                        binding?.rvNote?.layoutManager = LinearLayoutManager(requireContext())
+                    }
+                    sharedPreferences?.edit()?.putString("myLayoutType", currentLayoutManager)
+                        ?.apply()
                     binding?.tvStart?.visibility = View.VISIBLE
                 }
                 true
             }
             R.id.action_switch_theme -> {
-                if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+                if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                else
+                } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                }
+                true
+            }
+            R.id.action_switch_layout -> {
+                if (binding?.rvNote?.layoutManager.toString()
+                        .replace("androidx.recyclerview.widget.", "")
+                        .startsWith("GridLayoutManager", 0)
+                ) {
+                    lifecycleScope.launch {
+                        listAdapter?.submitList(repository?.getAll())
+                        binding?.rvNote?.adapter = listAdapter
+                        binding?.rvNote?.layoutManager = LinearLayoutManager(requireContext())
+                        currentLayoutManager = "LinearLayoutManager"
+                        sharedPreferences?.edit()?.putString("myLayoutType", currentLayoutManager)
+                            ?.apply()
+                    }
+                } else {
+                    lifecycleScope.launch {
+                        listAdapter?.submitList(repository?.getAll())
+                        binding?.rvNote?.adapter = listAdapter
+                        binding?.rvNote?.layoutManager = GridLayoutManager(requireContext(), 2)
+                        currentLayoutManager = "GridLayoutManager"
+                        sharedPreferences?.edit()?.putString("myLayoutType", currentLayoutManager)
+                            ?.apply()
+                    }
+                }
                 true
             }
             else ->
                 super.onOptionsItemSelected(item)
-            }
+        }
 
-        override fun onDestroy() {
+    override fun onDestroy() {
         super.onDestroy()
         binding = null
     }
 
     companion object {
         private const val ARG_SAVE_FLAG = "arg_save_flag"
+        private const val ARG_LAYOUT_TYPE = "arg_layout_type"
 
-        fun newInstance(save: Boolean) = MainFragment().apply {
+        fun newInstance(save: Boolean, layout: String) = MainFragment().apply {
             arguments = Bundle().apply {
                 putBoolean(ARG_SAVE_FLAG, save)
+                putString(ARG_LAYOUT_TYPE, layout)
             }
         }
     }

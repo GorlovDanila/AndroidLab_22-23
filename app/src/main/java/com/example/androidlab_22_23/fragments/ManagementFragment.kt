@@ -1,129 +1,107 @@
 package com.example.androidlab_22_23.fragments
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
-import android.location.LocationListener
 import android.location.LocationManager
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androidlab_22_23.R
 import com.example.androidlab_22_23.database.Converters
 import com.example.androidlab_22_23.databinding.FragmentManagementBinding
 import com.example.androidlab_22_23.model.Note
 import com.example.androidlab_22_23.model.NoteRepository
-import com.example.androidlab_22_23.util.LocListenerInterface
-import com.example.androidlab_22_23.util.MyLocationListener
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.google.android.material.snackbar.Snackbar
+import com.google.android.gms.location.*
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.*
 
-class ManagementFragment : Fragment(R.layout.fragment_management), LocListenerInterface {
+class ManagementFragment : Fragment(R.layout.fragment_management) {
     private var binding: FragmentManagementBinding? = null
     private var calendar: Calendar? = null
     private var repository: NoteRepository? = null
-    private var fusedLocationClient: FusedLocationProviderClient? = null
-    private var locationManager: LocationManager? = null
-    private var location: Location? = null
-    private var myLocationListener: MyLocationListener? = null
     private var latitude: Double? = null
     private var longitude: Double? = null
-
-    private val permission =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (!isGranted) {
-                latitude = 1.0
-                longitude = 1.0
-                Toast.makeText(requireContext(), "No GPS permissions", Toast.LENGTH_LONG)
-            } else {
-                checkPermissions()
-            }
-        }
-//
-//    private val settings =
-//        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
-
-
-//    private fun isLocationPermissionGranted(): Boolean {
-//        return if (ActivityCompat.checkSelfPermission(
-//                this,
-//                android.Manifest.permission.ACCESS_COARSE_LOCATION
-//            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-//                this,
-//                android.Manifest.permission.ACCESS_FINE_LOCATION
-//            ) != PackageManager.PERMISSION_GRANTED
-//        ) {
-//            ActivityCompat.requestPermissions(
-//                this,
-//                arrayOf(
-//                    android.Manifest.permission.ACCESS_FINE_LOCATION,
-//                    android.Manifest.permission.ACCESS_COARSE_LOCATION
-//                ),
-//                requestcode
-//            )
-//            false
-//        } else {
-//            true
-//        }
-//    }
-
+    private var idFromBundle: Int? = null
+    private var layout: String? = null
+    private var date: Date? = null
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var locationRequest: LocationRequest
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
-        init()
-        val idFromBundle = arguments?.getInt(ARG_ID_VALUE)
-        Log.e("ID", idFromBundle.toString())
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
-        //getLastKnownLocation()
-        Log.e("LATITUDE", latitude.toString())
-        Log.e("LONGTITUDE", longitude.toString())
+        idFromBundle = arguments?.getInt(ARG_ID_VALUE)
+        layout = arguments?.getString(ARG_LAYOUT_TYPE)
         binding = FragmentManagementBinding.bind(view)
-
         repository = NoteRepository(this@ManagementFragment.requireContext())
-
         calendar = Calendar.getInstance()
+        fusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(requireActivity())
+        binding?.run {
+            if (!checkPermission()) {
+                requestPermission()
+            }
+            if (!checkPermission() || !isLocationEnabled()) {
+                latitude = 1.0
+                longitude = 1.0
+                fragmentLogic()
+            } else {
+                getLastLocation()
+            }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    fun fragmentLogic() {
+        date = calendar?.time
         binding?.run {
             if (idFromBundle == -1) {
-                tvDate.text = calendar?.time.toString()
-                if(latitude == 1.0 && longitude == 1.0) {
-                    tvLatitude.text = "disabled"
-                    tvLongitude.text = "disabled"
+//                tvDate.text = calendar?.time.toString()
+                tvDate.text = getString(R.string.Date) + " " + SimpleDateFormat(
+                    "dd.MM.yyyy HH:mm",
+                    Locale.getDefault()
+                ).format(date!!)
+                if (latitude == 1.0 && longitude == 1.0) {
+                    tvLatitude.text =
+                        getString(R.string.latitudes) + " " + getString(R.string.disabled)
+                    tvLongitude.text =
+                        getString(R.string.Longtitude) + " " + getString(R.string.disabled)
                 } else {
-                    tvLatitude.text = latitude.toString()
-                    tvLongitude.text = longitude.toString()
+                    tvLatitude.text = getString(R.string.latitudes) + " " + latitude.toString()
+                    tvLongitude.text = getString(R.string.Longtitude) + " " + longitude.toString()
                 }
             } else if (idFromBundle != null) {
                 lifecycleScope.launch {
-                    val note: Note? = repository?.getNoteById(idFromBundle)
+                    val note: Note? = repository?.getNoteById(idFromBundle!!)
                     if (note != null) {
                         etTitle.setText(note.title, TextView.BufferType.EDITABLE)
                         etDescription.setText(note.description, TextView.BufferType.EDITABLE)
-                        tvDate.text = Converters().fromTimestamp(note.date).toString()
-                        if(note.latitude == 1.0 && note.longitude == 1.0) {
-                            tvLatitude.text = "disabled"
-                            tvLongitude.text = "disabled"
+                        tvDate.text = getString(R.string.Date) + " " + SimpleDateFormat(
+                            "dd.MM.yyyy HH:mm",
+                            Locale.getDefault()
+                        ).format(date!!)
+                        if (latitude == 1.0 && longitude == 1.0) {
+                            tvLatitude.text =
+                                getString(R.string.latitudes) + " " + getString(R.string.disabled)
+                            tvLongitude.text =
+                                getString(R.string.Longtitude) + " " + getString(R.string.disabled)
                         } else {
-                            tvLatitude.text = note.latitude.toString()
-                            tvLongitude.text = note.longitude.toString()
+                            tvLatitude.text =
+                                getString(R.string.latitudes) + " " + latitude.toString()
+                            tvLongitude.text =
+                                getString(R.string.Longtitude) + " " + longitude.toString()
                         }
                     }
                 }
@@ -133,7 +111,10 @@ class ManagementFragment : Fragment(R.layout.fragment_management), LocListenerIn
                 if (etTitle.text.isNotBlank() || etDescription.text.isNotBlank()) {
                     lifecycleScope.launch {
 
-                        if(idFromBundle == -1 || idFromBundle != null && repository?.getNoteById(idFromBundle) == null) {
+                        if (idFromBundle == -1 || idFromBundle != null && repository?.getNoteById(
+                                idFromBundle!!
+                            ) == null
+                        ) {
                             val note = Note(
                                 null,
                                 etTitle.text.toString(),
@@ -143,7 +124,7 @@ class ManagementFragment : Fragment(R.layout.fragment_management), LocListenerIn
                                 latitude
                             )
                             repository?.saveNote(note)
-                        } else if(idFromBundle != null && repository?.getNoteById(idFromBundle) != null) {
+                        } else if (idFromBundle != null && repository?.getNoteById(idFromBundle!!) != null) {
                             val note = Note(
                                 idFromBundle,
                                 etTitle.text.toString(),
@@ -163,16 +144,16 @@ class ManagementFragment : Fragment(R.layout.fragment_management), LocListenerIn
                     com.google.android.material.R.anim.abc_fade_in,
                     com.google.android.material.R.anim.abc_fade_out
                 )
-                    .replace(R.id.fragment_container, MainFragment.newInstance(true))
+                    .replace(R.id.fragment_container, MainFragment.newInstance(true, layout!!))
                     .addToBackStack("ToManagementFragment").commit()
             }
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear();
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.main_menu, menu);
+        menu.clear()
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.main_menu, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =
@@ -195,52 +176,14 @@ class ManagementFragment : Fragment(R.layout.fragment_management), LocListenerIn
             }
         }
 
-    private fun init() {
-         locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager?
-         myLocationListener = MyLocationListener()
-         myLocationListener?.setLocListenerInterface(this)
-         checkPermissions()
-    }
-
-    private fun checkPermissions() {
-        if(ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&  ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            permission.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
-            permission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-
-        } else {
-           if(latitude != 1.0 && longitude != 1.0) {
-               locationManager?.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2L, 1F, myLocationListener!!)
-           }
-        }
-    }
-
-    fun getLastKnownLocation() {
-//        if (ActivityCompat.checkSelfPermission(
-//                requireContext(),
-//                Manifest.permission.ACCESS_FINE_LOCATION
-//            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-//                requireContext(),
-//                Manifest.permission.ACCESS_COARSE_LOCATION
-//            ) != PackageManager.PERMISSION_GRANTED
-//        ) {
-//            permission.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-//            permission.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
-//        }
-//        fusedLocationClient?.lastLocation
-//            ?.addOnSuccessListener { location ->
-//                if (location != null) {
-//                    longitude = location.longitude
-//                    latitude = location.latitude
-//                }
-//            }
-    }
-
     companion object {
         private const val ARG_ID_VALUE = "arg_id_value"
+        private const val ARG_LAYOUT_TYPE = "arg_layout_type"
 
-        fun newInstance(id: Int) = ManagementFragment().apply {
+        fun newInstance(id: Int, layout: String) = ManagementFragment().apply {
             arguments = Bundle().apply {
                 putInt(ARG_ID_VALUE, id)
+                putString(ARG_LAYOUT_TYPE, layout)
             }
         }
     }
@@ -250,10 +193,85 @@ class ManagementFragment : Fragment(R.layout.fragment_management), LocListenerIn
         binding = null
     }
 
-    override fun onLocationChanged(loc: Location) {
-        if(latitude != 1.0 && longitude != 1.0) {
-            latitude = loc.latitude
-            longitude = loc.longitude
+    private fun isLocationEnabled(): Boolean {
+        val locationManager =
+            requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER
+        )
+    }
+
+    @SuppressLint("MissingPermission")
+    fun getLastLocation() {
+        if (checkPermission()) {
+            if (isLocationEnabled()) {
+                fusedLocationProviderClient.lastLocation.addOnCompleteListener { task ->
+                    val location: Location? = task.result
+                    if (location == null) {
+                        newLocationData()
+                    } else {
+                        longitude = location.longitude
+                        latitude = location.latitude
+                        fragmentLogic()
+                    }
+                }
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Please Turn on Your device Location",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    fun newLocationData() {
+        locationRequest = LocationRequest()
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest.interval = 0
+        locationRequest.fastestInterval = 0
+        locationRequest.numUpdates = 1
+        fusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(requireActivity())
+        fusedLocationProviderClient.requestLocationUpdates(
+            locationRequest, locationCallback, Looper.myLooper()
+        )
+    }
+
+    private val locationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            val lastLocation: Location = locationResult.lastLocation
+            longitude = lastLocation.longitude
+            latitude = lastLocation.latitude
+            fragmentLogic()
+        }
+    }
+
+    private fun checkPermission(): Boolean {
+        if (
+            ActivityCompat.checkSelfPermission(
+                requireContext(),
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED ||
+            ActivityCompat.checkSelfPermission(
+                requireContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            return true
+        }
+        return false
+    }
+
+    private fun requestPermission() {
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(
+                android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ),
+            1010
+        )
     }
 }

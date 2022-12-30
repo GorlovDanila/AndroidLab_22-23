@@ -11,4 +11,9 @@
         android:icon="@drawable/ic_baseline_brightness_5_24"
         android:title="@string/switch_theme"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_switch_layout"
+        android:icon="@drawable/ic_baseline_apps_24"
+        android:title="@string/switch_layout"
+        app:showAsAction="ifRoom" />
 </menu>

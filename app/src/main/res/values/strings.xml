@@ -11,4 +11,9 @@
     <string name="save">Save</string>
     <string name="name">Название</string>
     <string name="desc">Описание</string>
+    <string name="disabled">disabled</string>
+    <string name="switch_layout">Switch layout</string>
+    <string name="latitudes">Latitude: </string>
+    <string name="Date">Date: </string>
+    <string name="Longtitude">Longitude: </string>
 </resources>
