@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HelloFragment"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/tv_counter_value"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="@string/counter_value_0"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@id/btn_next_fragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread" />
+
+    <Button
+        android:id="@+id/btn_next_fragment"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="@string/next_fragment"
+        app:layout_constraintBottom_toTopOf="@id/btn_counter_plus_one"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_counter_value" />
+
+    <Button
+        android:id="@+id/btn_counter_plus_one"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="@string/counter_plus_one"
+        app:layout_constraintBottom_toTopOf="@id/btn_dialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_next_fragment" />
+
+    <Button
+        android:id="@+id/btn_dialog"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="@string/open_dialogfragment"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_counter_plus_one" />
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
