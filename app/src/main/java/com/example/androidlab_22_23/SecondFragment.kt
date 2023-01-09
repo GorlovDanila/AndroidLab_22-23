@@ -11,26 +11,25 @@ class SecondFragment : Fragment(R.layout.fragment_second) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val counterFromBundle: Int? = arguments?.getInt(ARG_COUNTER_VALUE)
-        if (counterFromBundle.toString().toInt() in 0..50) {
-            val colorValue = ContextCompat.getColor(requireContext(), R.color.purple_200)
-            view.setBackgroundColor(colorValue)
-
-        }
-        if (counterFromBundle.toString().toInt() in 51..100) {
-            val colorValue = ContextCompat.getColor(requireContext(), R.color.purple_500)
-            view.setBackgroundColor(colorValue)
-
-        }
-        if (counterFromBundle.toString().toInt() > 100) {
-            val colorValue = ContextCompat.getColor(requireContext(), R.color.purple_700)
-            view.setBackgroundColor(colorValue)
-
+        when(counterFromBundle.toString().toInt()) {
+            in 0..50 -> {
+                val colorValue = ContextCompat.getColor(requireContext(), R.color.purple_200)
+                view.setBackgroundColor(colorValue)
+            }
+            in 51..100 -> {
+                val colorValue = ContextCompat.getColor(requireContext(), R.color.purple_500)
+                view.setBackgroundColor(colorValue)
+            }
+            else -> {
+                val colorValue = ContextCompat.getColor(requireContext(), R.color.purple_700)
+                view.setBackgroundColor(colorValue)
+            }
         }
 
         binding = FragmentSecondBinding.bind(view)
 
         binding?.run {
-            binding!!.tvCounter.text = "Counter value: $counterFromBundle"
+            tvCounter.text = "Counter value: $counterFromBundle"
         }
     }
 

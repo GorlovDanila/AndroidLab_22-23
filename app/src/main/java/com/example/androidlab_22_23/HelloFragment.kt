@@ -18,7 +18,7 @@ class HelloFragment : Fragment(R.layout.fragment_main) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentMainBinding.bind(view)
         if (savedInstanceState != null) {
-            counter = savedInstanceState.getInt("s")
+            counter = savedInstanceState.getInt(ARG_COUNTER_VALUE_HELLO)
         }
         binding?.run {
             tvCounterValue.text = "Counter value: $counter"
@@ -97,7 +97,7 @@ class HelloFragment : Fragment(R.layout.fragment_main) {
         return counterDialog
     }
 
-    private fun checkET(editText: EditText): Boolean {
+    fun checkET(editText: EditText?): Boolean {
         var flag = true
         val numberList = listOf(
             'a',
@@ -128,7 +128,7 @@ class HelloFragment : Fragment(R.layout.fragment_main) {
             'y',
             'z'
         )
-        val text = editText.text.toString()
+        val text = editText?.text.toString()
         if (!text.contains(' ')) {
             for (element1 in text) {
                 for (element2 in numberList) {
@@ -155,6 +155,10 @@ class HelloFragment : Fragment(R.layout.fragment_main) {
     @Override
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt("s", counter)
+        outState.putInt(ARG_COUNTER_VALUE_HELLO, counter)
+    }
+
+    companion object {
+        private const val ARG_COUNTER_VALUE_HELLO = "arg_counter_value"
     }
 }
