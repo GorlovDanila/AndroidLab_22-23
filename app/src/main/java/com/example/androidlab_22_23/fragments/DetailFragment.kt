@@ -165,7 +165,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                     song,
                     R.drawable.ic_baseline_pause_circle_24,
                 )
-                binding?.ivPlay!!.setImageResource(R.drawable.ic_baseline_pause_circle_24)
+                binding?.ivPlay?.setImageResource(R.drawable.ic_baseline_pause_circle_24)
 
                 requireContext().bindService(
                     Intent(requireContext(), SongService::class.java).apply {
@@ -186,7 +186,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                     song,
                     R.drawable.ic_baseline_play_circle_24,
                 )
-                binding?.ivPlay!!.setImageResource(R.drawable.ic_baseline_play_circle_24)
+                binding?.ivPlay?.setImageResource(R.drawable.ic_baseline_play_circle_24)
                 requireContext().bindService(
                     Intent(requireContext(), SongService::class.java).apply {
                         putExtra("MEDIA_ACTION", MediaActions.PAUSE as Parcelable)
@@ -236,15 +236,15 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             connection,
             Service.BIND_AUTO_CREATE
         )
-        binding?.ivPlay!!.setImageResource(R.drawable.ic_baseline_pause_circle_24)
-        binding?.ivCover!!.setImageResource(prevSong.cover)
-        binding?.tvTitle!!.text = prevSong.title
-        binding?.tvAuthor!!.text = prevSong.author
-        binding?.tvAlbum!!.text = prevSong.album
+        binding?.ivPlay?.setImageResource(R.drawable.ic_baseline_pause_circle_24)
+        binding?.ivCover?.setImageResource(prevSong.cover)
+        binding?.tvTitle?.text = prevSong.title
+        binding?.tvAuthor?.text = prevSong.author
+        binding?.tvAlbum?.text = prevSong.album
         binder?.previousMusic(prevSong.audio)
         nextIdFromBundle = idFromBundle
         idFromBundle = prevIdFromBundle
-        prevIdFromBundle = idFromBundle!! - 1
+        prevIdFromBundle = idFromBundle?.minus(1)
         Log.e(
             "PREV_IDS",
             prevIdFromBundle.toString() + " " + idFromBundle.toString() + " " + nextIdFromBundle
