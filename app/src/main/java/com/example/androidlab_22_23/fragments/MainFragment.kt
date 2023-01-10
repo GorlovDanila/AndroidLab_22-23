@@ -40,7 +40,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             MyRepository.generateList(20)
             rvCharacter.scrollToPosition(10)
             listAdapter?.submitList(MyRepository.itemList)
-            binding!!.rvCharacter.adapter = listAdapter
+            rvCharacter.adapter = listAdapter
             SwipeDelete(binding!!.root, listAdapter).attachToRecyclerView(binding!!.rvCharacter)
 
             rvCharacter.adapter = listAdapter
