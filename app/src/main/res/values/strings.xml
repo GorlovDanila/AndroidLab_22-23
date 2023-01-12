@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">AndroidLab_22-23</string>
+    <string name="name">Name:</string>
+    <string name="affiliation">Affiliation</string>
+    <string name="title">Заголовок</string>
+    <string name="info">Описание</string>
+    <string name="position">Позиция</string>
+    <string name="ok">OK</string>
 </resources>
