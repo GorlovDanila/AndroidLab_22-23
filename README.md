@@ -8,8 +8,10 @@ hw-2: Explicit и Implicit intents
 
 hw-3: FragmentManager, dialogFragment и сохранение состояния при смене конфигурации
 
-hw-4:
+hw-4: RecyclerView with custom item animation, collapsingToolbar and Glide
+
 hw-5:
+
 hw-6:
 hw-7:
 hw-8:
