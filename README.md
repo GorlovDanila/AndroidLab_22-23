@@ -10,7 +10,7 @@ hw-3: FragmentManager, dialogFragment и сохранение состояния
 
 hw-4: RecyclerView with custom item animation, collapsingToolbar and Glide
 
-hw-5:
+hw-5: 
 
 hw-6:
 hw-7:
